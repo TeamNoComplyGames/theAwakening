@@ -417,13 +417,6 @@ public class PlayerControl : BaseCharacter {
 			(direction == -1 && (enemyX - window) <= playerX))
 		{
 
-			//Get the enemy and decrease it's health
-			EnemyControl e = (EnemyControl) collision.gameObject.GetComponent("EnemyControl");
-
-			//Do damage
-			int newHealth = e.getHealth() - playerDamage;
-			e.setHealth(newHealth);
-
 			//Shake the screen
 			actionCamera.startShake();
 
