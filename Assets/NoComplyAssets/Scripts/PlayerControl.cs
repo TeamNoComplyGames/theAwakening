@@ -166,6 +166,9 @@ public class PlayerControl : BaseCharacter {
 		//Get our input
 		float h = inputDirection;
 
+		//Since we are an endless runner, we should keep the input direction always rght
+		h = 1.0f;
+
 		//Force some camera Lerp
 		if(playerLerp) actionCamera.addLerp(h / 20, 0);
 

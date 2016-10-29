@@ -3,7 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class EndlessBG : MonoBehaviour {
+public class ScrollingBG : MonoBehaviour {
 
 	[Tooltip("The Speed of Scrolling any value from 0 to 10")]
 	public float scrollSpeed;
