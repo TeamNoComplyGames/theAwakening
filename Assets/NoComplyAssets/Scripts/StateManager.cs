@@ -78,15 +78,15 @@ public class StateManager : MonoBehaviour {
 		user = GameObject.Find ("Player").GetComponent<PlayerControl>();
 
 		//Get our Hud
-		hud = GameObject.FindWithTag("Health Text").GetComponent<UnityEngine.UI.Text> ();
-		healthBar = GameObject.FindWithTag ("Health Bar").GetComponent<UnityEngine.UI.Image> ();
+		//hud = GameObject.FindWithTag("Health Text").GetComponent<UnityEngine.UI.Text> ();
+		//healthBar = GameObject.FindWithTag ("Health Bar").GetComponent<UnityEngine.UI.Image> ();
 
 		//Get our Hud
-		credits = GameObject.FindGameObjectWithTag ("Credits").GetComponent<Canvas>();
-		credits.enabled = false;
+		//credits = GameObject.FindGameObjectWithTag ("Credits").GetComponent<Canvas>();
+		//credits.enabled = false;
 
 		//get our bg music
-		bgFight = GameObject.Find ("BgSong").GetComponent<AudioSource> ();
+		bgFight = GameObject.Find ("BG Song").GetComponent<AudioSource> ();
 		//deathSound = GameObject.Find ("Death").GetComponent<AudioSource> ();
 		deathPlayed = false;
 
@@ -99,7 +99,7 @@ public class StateManager : MonoBehaviour {
 		score = 0;
 
 		//Show our score and things
-		hud.text = ("Health: " + user.getHealth());
+		//hud.text = ("Health: " + user.getHealth());
 
 		//Spawn an enemies
 		totalFrames = 500;
@@ -111,7 +111,7 @@ public class StateManager : MonoBehaviour {
 		slowmoRate = 0.025f;
 
 		//Hide Our gameover text
-		gameOverText.enabled = false;
+		//gameOverText.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -175,8 +175,8 @@ public class StateManager : MonoBehaviour {
 			score = (int)(defeatedEnemies * 100) + defeatedEnemies;
 
 			//Show our score and things
-			hud.text = ("Health: " + user.getHealth());
-			healthBar.fillAmount = (user.getHealth () / 100.0f);
+			//hud.text = ("Health: " + user.getHealth());
+			//healthBar.fillAmount = (user.getHealth () / 100.0f);
 
 			//start the music! if it is not playing
 			if (!bgFight.isPlaying) {

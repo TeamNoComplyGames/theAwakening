@@ -77,7 +77,7 @@ public class BaseCharacter : MonoBehaviour {
 		direction = 1;
 
 		//Get our gamemaneger
-		gameManager = GameObject.Find("StateManager").GetComponent<StateManager>();
+		gameManager = GameObject.Find("Game Manager").GetComponent<StateManager>();
 
 		//Get our camera script
 		actionCamera = Camera.main.GetComponent<ActionCamera>();

@@ -25,7 +25,11 @@ public class ActionCamera : MonoBehaviour {
 	//Boolean if currently in an impact pause
 	private bool impacting;
 
-	//our postion
+	//our postion (With a public X and Y Origin)
+	[Tooltip("The X Position of the camera that camera shake and things will return to")]
+	public float originX = 0.0f;
+	[Tooltip("The Y Position of the camera that camera shake and things will return to")]
+	public float originY = 0.0f;
 	private Vector3 defaultPos;
 
 	//Our game manager
@@ -36,7 +40,7 @@ public class ActionCamera : MonoBehaviour {
 	void Start () 
 	{
 		shaking = false;
-		defaultPos = new Vector3 (0, 0, -10);
+		defaultPos = new Vector3 (originX, originY, -10);
 		impacting = false;
 		shakeAmount = shakeAmount / 10.0f;
 		shakeSettleSpeed = shakeSettleSpeed / 3.0f;
@@ -46,7 +50,7 @@ public class ActionCamera : MonoBehaviour {
 			new Vector3 (.05f, .05f, -10);
 
 		//Get our gammaneger
-		gameManager = GameObject.Find("StateManager").GetComponent<StateManager>();
+		gameManager = GameObject.Find("Game Manager").GetComponent<StateManager>();
 	}
 
 	// Update is called once per frame

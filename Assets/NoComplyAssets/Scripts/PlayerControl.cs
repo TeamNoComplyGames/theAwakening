@@ -14,6 +14,7 @@ public class PlayerControl : BaseCharacter {
 
 	//Our Number of jumps we have done
 	public float jumpHeight;
+	public int maxJumps = 1;
 	private int jumps;
 	private bool jumpReady;
 	private float acceleratedGravity;
@@ -43,9 +44,10 @@ public class PlayerControl : BaseCharacter {
 
 		//Get our sounds
 		jump = GameObject.Find ("Jump").GetComponent<AudioSource> ();
+		/*
 		attack = GameObject.Find ("Attack").GetComponent<AudioSource> ();
 		attackHit = GameObject.Find ("AttackHit").GetComponent<AudioSource> ();
-
+		*/
 		//Set our actions
 		attacking = false;
 		jumps = 0;
@@ -87,9 +89,10 @@ public class PlayerControl : BaseCharacter {
 			}
 
 			//Call moving
-			if(!gameManager.getGameStatus()) Move(Input.GetAxis("Horizontal"), true, attacking);
+			//if(!gameManager.getGameStatus()) Move(Input.GetAxis("Horizontal"), true, attacking);
 
 			//Attacks with our player (Check for a level up here as well), only attack if not jumping
+			/*
 			if (Input.GetAxis("Attack") != 0 &&
 				!gameManager.getGameStatus()) {
 
@@ -114,11 +117,12 @@ public class PlayerControl : BaseCharacter {
 				//Set hold punch to zero
 				holdAttack = 0;
 			}
+			*/
 
 			//Jumping INput, cant jump if attacking
 			if(Input.GetAxis("Jump") != 0 && !attacking && 
 				jumpReady &&
-				jumps < 2 &&
+				jumps < maxJumps &&
 				!gameManager.getGameStatus()) {
 
 				jumpReady = false;
@@ -317,10 +321,10 @@ public class PlayerControl : BaseCharacter {
 			}
 
 			//Add the Force
-			charBody.AddForce( new Vector2(jumpX, jumpY));
+			charBody.AddForce( new Vector2(0, jumpY));
 
 			//Force some camera Lerp
-			actionCamera.addLerp(0, i / -380.0f);
+			actionCamera.addLerp(0, i / -1080.0f);
 
 
 			//Wait some frames
