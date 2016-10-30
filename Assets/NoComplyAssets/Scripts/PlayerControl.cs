@@ -19,6 +19,8 @@ public class PlayerControl : BaseCharacter {
 	public int maxJumps = 1;
 	private int jumps;
 	private bool jumpReady;
+	[Tooltip("The Amount of float gravity being added to player as the jump. 1 through 100")]
+	public float gravityRate = 15.0f;
 	private float acceleratedGravity;
 	private bool grounded;
 	public Transform groundCheck;
@@ -26,6 +28,7 @@ public class PlayerControl : BaseCharacter {
 	private bool walled;
 	public Transform wallCheck;
 	public LayerMask wallLayer;
+	[Tooltip("Small radius of the ground check object ot the floor. 0 through 1")]
 	public float groundCheckRadius;
 	public float wallCheckRadius;
 
@@ -82,15 +85,14 @@ public class PlayerControl : BaseCharacter {
 			//if(walled) jumps = 1;
 			//Recalculate our ground State
 			if (grounded) {
-				jumps = 0;
 				acceleratedGravity = 0;
 				charBody.drag = 0.5f;
 			}
 
 			if (!grounded) {
 				
-				charBody.AddForce (new Vector2 (0, acceleratedGravity * -7));
-				acceleratedGravity = acceleratedGravity + 0.15f;
+				charBody.AddForce (new Vector2 (0, acceleratedGravity * -7 ));
+				acceleratedGravity = acceleratedGravity + gravityRate / 100.0f;
 			}
 
 			//Attacks with our player (Check for a level up here as well), only attack if not jumping
@@ -142,11 +144,9 @@ public class PlayerControl : BaseCharacter {
 			//Force to let go of axis
 			if(Input.GetAxis("Jump") == 0) jumpReady = true;
 
-
 			//Check if we can slide
-			if(Input.GetAxis("Fire2") != 0 && 
-				!attacking && 
-				grounded && 
+			if(Input.GetAxis("Fire1") != 0 && 
+				!attacking &&  
 				jumps < maxJumps &&
 				!sliding && 
 				!gameManager.getGameStatus()) {
@@ -242,9 +242,6 @@ public class PlayerControl : BaseCharacter {
 		//And Decrease our X
 		charBody.velocity = new Vector2 (charBody.velocity.x, 0);
 
-		//Increase our drag
-		charBody.drag = 25000000.0f;
-
 		//Start jump animation
 		animator.SetBool ("Jump", true);
 
@@ -304,9 +301,7 @@ public class PlayerControl : BaseCharacter {
 		}
 
 		//Check if it is the floor
-		if (collision.gameObject.tag == "Floor" ||
-			collision.gameObject.tag == "EnemyChar" ||
-			collision.gameObject.tag == "BossChar") {
+		if (collision.gameObject.tag == "Floor") {
 			
 			//Set Jumps to zero
 			StopCoroutine ("Jump");
@@ -357,10 +352,7 @@ public class PlayerControl : BaseCharacter {
 		}
 
 		//Check if it is the floor
-		if (collision.gameObject.tag == "Floor" ||
-			collision.gameObject.tag == "EnemyChar" ||
-			collision.gameObject.tag == "BossChar") {
-
+		if (collision.gameObject.tag == "Floor") {
 			//Set Jumps to zero
 			acceleratedGravity = 0;
 			jumps = 0;

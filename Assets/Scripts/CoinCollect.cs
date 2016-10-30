@@ -35,7 +35,14 @@ public class CoinCollect : MonoBehaviour {
 	{
 
 		//Check if it is spikes
-		if(collision.gameObject.tag == "Player" && !stateManager.getGameStatus()) {
+		if(collision.gameObject.tag == "Player") {
+
+			if (stateManager.getGameStatus ()) {
+				//Ignore the collision
+				Physics2D.IgnoreCollision(collision.collider, coinCollider);
+				return;
+			}
+
 			//Increase the score
 			stateManager.setScore (stateManager.getScore() + 1);
 
