@@ -33,6 +33,7 @@ public class BaseCharacter : MonoBehaviour {
 
 	//Our player sprite
 	protected Rigidbody2D charBody;
+	protected Collider2D charCollider;
 
 	//Our player stats
 	protected int curHealth;
@@ -63,8 +64,9 @@ public class BaseCharacter : MonoBehaviour {
 		animator = GetComponent<Animator>();
 		render = GetComponent<SpriteRenderer>();
 
-		//Get the rigid body on the prefab
+		//Get the rigid body/collider on the prefab
 		charBody = GetComponent<Rigidbody2D>();
+		charCollider = GetComponent<Collider2D>();
 
 		//Set our default values
 		moveDec = 1;

@@ -11,6 +11,8 @@ public class PlayerControl : BaseCharacter {
 	//Boolean to check if attacking
 	bool attacking;
 
+	//Boolean to check if we are sliding
+	bool sliding;
 
 	//Our Number of jumps we have done
 	public float jumpHeight;
@@ -50,6 +52,7 @@ public class PlayerControl : BaseCharacter {
 		*/
 		//Set our actions
 		attacking = false;
+		sliding = false;
 		jumps = 0;
 		holdAttack = 0;
 
@@ -57,6 +60,8 @@ public class PlayerControl : BaseCharacter {
 		grounded = false;
 		acceleratedGravity = 0.0f;
 		jumpReady = true;
+
+		//Get our collider
 	}
 
 	// Update is called once per frame
@@ -87,9 +92,6 @@ public class PlayerControl : BaseCharacter {
 				charBody.AddForce (new Vector2 (0, acceleratedGravity * -7));
 				acceleratedGravity = acceleratedGravity + 0.15f;
 			}
-
-			//Call moving
-			//if(!gameManager.getGameStatus()) Move(Input.GetAxis("Horizontal"), true, attacking);
 
 			//Attacks with our player (Check for a level up here as well), only attack if not jumping
 			/*
@@ -122,6 +124,7 @@ public class PlayerControl : BaseCharacter {
 			//Jumping INput, cant jump if attacking
 			if(Input.GetAxis("Jump") != 0 && !attacking && 
 				jumpReady &&
+				!sliding &&
 				jumps < maxJumps &&
 				!gameManager.getGameStatus()) {
 
@@ -138,6 +141,15 @@ public class PlayerControl : BaseCharacter {
 
 			//Force to let go of axis
 			if(Input.GetAxis("Jump") == 0) jumpReady = true;
+
+
+			//Check if we can slide
+			if(Input.GetAxis("Fire2") != 0 && !attacking && grounded && !sliding && !gameManager.getGameStatus()) {
+				//Slide Coroutine
+				StopCoroutine ("Slide");
+				animator.SetBool ("Sliding", false);
+				StartCoroutine ("Slide");
+			}
 		} 
 		else {
 
@@ -164,78 +176,21 @@ public class PlayerControl : BaseCharacter {
 		}
 	}
 
-	//Function to move our Character
-	public void Move (float inputDirection, bool playerLerp, bool inAction)
-	{
-		//Get our input
-		float h = inputDirection;
+	//Function for sliding
+	IEnumerator Slide() {
+		//Set shooting to true
+		sliding = true;
 
-		//Since we are an endless runner, we should keep the input direction always rght
-		h = 1.0f;
+		animator.SetBool ("Sliding", true);
 
-		//Force some camera Lerp
-		if(playerLerp) actionCamera.addLerp(h / 20, 0);
-
-		//Also check to make sure we stay that direction when not moving, so check that we are
-		if (h != 0) {
-
-			//animate to the direction we are going to move
-			//Find the greatest absolute value to get most promenint direction
-			/*
-			 *
-			 * -1		1
-			 *
-			 * */
-
-			if (h > 0) {
-				direction = 1;
-			} else {
-				direction = -1;
-			}
-
-			//Create a vector to where we are moving
-			Vector2 movement = new Vector2 (h, 0);
-
-			//When attacking start a slow movemnt coroutine
-			if (!inAction) {
-
-				//Attacking working great
-				StopCoroutine ("slowMoving");
-				StartCoroutine ("slowMoving");
-			}
-
-
-			//Get our speed according to our current level
-			float levelSpeed = moveSpeed;
-
-
-			//Get our actual speed
-			float superSpeed = moveSpeed / moveDec;
-
-			//Can't go above .5 though
-			if (superSpeed > (.032f * moveSpeed)) {
-				superSpeed = (.032f * moveSpeed);
-			}
-
-			//Flip our sprite
-			setFlip();
-
-			//Move to that position
-			animator.SetBool ("Running", true);
-			charBody.MovePosition (charBody.position + movement * superSpeed);
+		//Wait about 1 second (60 frames)
+		for(int i = 0; i < 60; ++i) {
+			//Let the frame finish
+			yield return new WaitForFixedUpdate();
 		}
 
-		//then we are not moving
-		else {
-
-			//Set our position to our current position, so we dont drift away
-			charBody.MovePosition (charBody.position);
-
-			//tell the animator we are no longer moving
-			//direction = 0;
-
-			animator.SetBool ("Running", false);
-		}
+		animator.SetBool ("Sliding", false);
+		sliding = false;
 	}
 
 	//Function for attacking
@@ -361,8 +316,11 @@ public class PlayerControl : BaseCharacter {
 		}
 
 		//Check if it is an enemy
-		if (collision.gameObject.tag == "EnemyChar" ||
-			collision.gameObject.tag == "BossChar") {
+		if (collision.gameObject.tag == "Enemy" ||
+			collision.gameObject.tag == "EnemyDuck") {
+
+			//First check if we were ducking, and it is a enemy we need to duck for
+			if(sliding && collision.gameObject.tag == "EnemyDuck") Physics2D.IgnoreCollision(collision.collider, charCollider);
 
 			if (attacking) {
 
@@ -395,8 +353,11 @@ public class PlayerControl : BaseCharacter {
 		}
 
 		//Check if it is an enemy
-		if (collision.gameObject.tag == "EnemyChar" ||
-			collision.gameObject.tag == "BossChar") {
+		if (collision.gameObject.tag == "Enemy" ||
+			collision.gameObject.tag == "EnemyDuck") {
+
+			//First check if we were ducking, and it is a enemy we need to duck for
+			if(sliding && collision.gameObject.tag == "EnemyDuck") Physics2D.IgnoreCollision(collision.collider, charCollider);
 
 			if (attacking) {
 

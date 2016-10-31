@@ -10,32 +10,8 @@ public class StateManager : MonoBehaviour {
 	private bool gameWin;
 	private bool creditsShow;
 
-	//Our previous time to be stored for the spawn rate
-	private float previousTime;
-
 	//Our player object
 	private PlayerControl user;
-
-	//Our number of frames on startup
-	//Rate (Frames) at which monsters should spawn
-	public float spawnRateFrames;
-	private int totalFrames;
-	private int updateFrames;
-
-	//Our enemy prefab
-	public GameObject[] enemies;
-	public GameObject[] bosses;
-	private int numEnemies;
-	//Suggest max enemies 50
-	public int maxEnemies;
-	//number of enemies spawned
-	private int defeatedEnemies;
-	//Total number of enemies spawned
-	private int totalSpawnedEnemies;
-
-	//Our Maps
-	//public Sprite[] maps;
-	//private SpriteRenderer gameMap;
 
 	//Our Hud
 	private UnityEngine.UI.Text hud;
@@ -48,7 +24,7 @@ public class StateManager : MonoBehaviour {
 	//Our score
 	private int score;
 
-	//Our slowmom
+	//Our slowmo
 	private int currentSlowmo;
 	private int maxSlowmo;
 	private float slowmoRate;
@@ -90,20 +66,11 @@ public class StateManager : MonoBehaviour {
 		//deathSound = GameObject.Find ("Death").GetComponent<AudioSource> ();
 		deathPlayed = false;
 
-		//Defeated enemies is one for score calculation at start
-		defeatedEnemies = 0;
-		//Total spawned enemies is one because we check for it to spawn enemies, and zero would get it stuck
-		totalSpawnedEnemies = 0;
-
 		//Set score to zero
 		score = 0;
 
 		//Show our score and things
 		//hud.text = ("Health: " + user.getHealth());
-
-		//Spawn an enemies
-		totalFrames = 500;
-		updateFrames = totalFrames;
 
 		//All of our slow mo stats
 		maxSlowmo = 60;
@@ -170,10 +137,6 @@ public class StateManager : MonoBehaviour {
 
 			//Do normal stuff
 
-			//Get the score for the player
-			//Going to calculate by enemies defeated, level, and minutes passed
-			score = (int)(defeatedEnemies * 100) + defeatedEnemies;
-
 			//Show our score and things
 			//hud.text = ("Health: " + user.getHealth());
 			//healthBar.fillAmount = (user.getHealth () / 100.0f);
@@ -210,43 +173,8 @@ public class StateManager : MonoBehaviour {
 				else
 					Time.timeScale = 1.0f;
 			}
-
-
-			//Spawn an enemy every 500 frames
-			if(updateFrames == 0) {
-
-				//Spawn an enemy 
-				if(numEnemies < maxEnemies) {
-
-					//Spawn the enemy
-					//StartCoroutine("spawnEnemy");
-
-					if (totalFrames - spawnRateFrames > 0) {
-
-						totalFrames = (int)(totalFrames - spawnRateFrames);
-						updateFrames = totalFrames;
-					} else
-						updateFrames = 0;
-				}
-			}
-			else updateFrames--;
 		}
 
-	}
-
-	//Function to spawn and enemy
-	IEnumerator spawnEnemy() {
-		
-		Vector2 spawnPos = new Vector2 (user.transform.position.x + 2.0f, user.transform.position.y + 2.0f);
-
-
-		//Spawn our enemy
-		Instantiate(enemies[0], spawnPos, Quaternion.identity);
-
-		//increase our number of enemies
-		numEnemies++;
-
-		yield return null;
 	}
 
 
@@ -263,38 +191,12 @@ public class StateManager : MonoBehaviour {
 		return gameOver;
 	}
 
-	//Function to increase/decrease num enemies
-	public void plusEnemy()
-	{
-		++numEnemies;
-		++totalSpawnedEnemies;
+	//Geter and setter for score
+	public int getScore() {
+		return score;
 	}
-
-	public void minusEnemy()
-	{
-		--numEnemies;
-
-		//Since enemy is gone add to defeated enemies
-		++defeatedEnemies;
-
-		//Increase our score
-		score = (int) Math.Floor(score + defeatedEnemies + Math.Abs(1000 * Math.Abs(UnityEngine.Random.insideUnitCircle.x)));
-
-		//Show our score and things
-		hud.text = ("Health: " + user.getHealth());
-		healthBar.fillAmount = (user.getHealth () / 100);
-
-		//Remove the block if we have defeated all the enemies
-		if(defeatedEnemies >= 19) {
-
-			//Destroy the block
-			Destroy (GameObject.Find ("KeyBlock"));
-
-			//As well asremove the text
-			GameObject.Find("KeyText").GetComponent<UnityEngine.UI.Text>().enabled = false;
-
-			//As well as play a special sound
-		}
+	public void setScore(int newScore) {
+		score = newScore;
 	}
 
 	//Function to reset the scene
@@ -310,13 +212,6 @@ public class StateManager : MonoBehaviour {
 
 		//Load the scene
 		SceneManager.LoadScene ("GameMain");
-	}
-
-
-
-	//Function to win the game
-	public void defeatedFinalBoss() {
-		gameWin = true;
 	}
 
 	//Function to fade in some credits

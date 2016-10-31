@@ -16,8 +16,8 @@ public class ObjectSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//Set our true spawn rate (60 frames per second), 60 was a bit too long, so shortened it a little bit
-		trueSpawnRate = 5 * 45;
+		//Set our true spawn rate (Slightly longer than input)
+		trueSpawnRate = spawnRate * 20;
 		currentSpawn = trueSpawnRate;
 	}
 	
