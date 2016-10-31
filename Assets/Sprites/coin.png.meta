@@ -1,9 +1,13 @@
 fileFormatVersion: 2
 guid: 7e147a98f2fcbe8468ff6658090d6656
-timeCreated: 1477794556
+timeCreated: 1477880075
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: coin_0
+    21300002: coin_1
+    21300004: coin_2
+    21300006: coin_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -29,8 +33,8 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
-    aniso: -1
+    filterMode: 0
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +42,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +53,83 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: coin_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 8}
+        - {x: -7, y: 3}
+        - {x: -7, y: -5}
+        - {x: -2, y: -7}
+        - {x: 5, y: -7}
+        - {x: 7, y: -2}
+        - {x: 7, y: 3}
+        - {x: 2, y: 8}
+    - name: coin_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -1, y: 8}
+        - {x: -6, y: 3}
+        - {x: -6, y: -2}
+        - {x: -1, y: -7}
+        - {x: 1, y: -7}
+        - {x: 6, y: -2}
+        - {x: 6, y: 3}
+        - {x: 1, y: 8}
+    - name: coin_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 8}
+        - {x: -7, y: 3}
+        - {x: -7, y: -5}
+        - {x: -2, y: -7}
+        - {x: 5, y: -7}
+        - {x: 7, y: -2}
+        - {x: 7, y: 3}
+        - {x: 2, y: 8}
+    - name: coin_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -1, y: 8}
+        - {x: -6, y: 3}
+        - {x: -6, y: -2}
+        - {x: -1, y: -7}
+        - {x: 1, y: -7}
+        - {x: 6, y: -2}
+        - {x: 6, y: 3}
+        - {x: 1, y: 8}
     outline: []
   spritePackingTag: 
   userData: 

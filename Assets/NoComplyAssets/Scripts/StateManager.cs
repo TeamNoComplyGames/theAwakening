@@ -54,8 +54,7 @@ public class StateManager : MonoBehaviour {
 		user = GameObject.Find ("Player").GetComponent<PlayerControl>();
 
 		//Get our Hud
-		//hud = GameObject.FindWithTag("Health Text").GetComponent<UnityEngine.UI.Text> ();
-		//healthBar = GameObject.FindWithTag ("Health Bar").GetComponent<UnityEngine.UI.Image> ();
+		hud = GameObject.FindWithTag("ScoreHud").GetComponent<UnityEngine.UI.Text> ();
 
 		//Get our Hud
 		//credits = GameObject.FindGameObjectWithTag ("Credits").GetComponent<Canvas>();
@@ -70,7 +69,7 @@ public class StateManager : MonoBehaviour {
 		score = 0;
 
 		//Show our score and things
-		//hud.text = ("Health: " + user.getHealth());
+		hud.text = ("Coins: " + score);
 
 		//All of our slow mo stats
 		maxSlowmo = 60;
@@ -95,10 +94,6 @@ public class StateManager : MonoBehaviour {
 
 		if (gameWin) {
 
-			//Finalize our hud
-			hud.text = ("Health: " + user.getHealth());
-			healthBar.fillAmount = (user.getHealth () / 100.0f);
-
 			//Slow down the game Time
 			Time.timeScale = 0.275f;
 
@@ -112,9 +107,6 @@ public class StateManager : MonoBehaviour {
 		{
 			
 			//Show our game over
-			hud.text = "Health: 0";
-			healthBar.fillAmount = 0.0f;
-
 			//stop the music! if it is playing
 			if(bgFight.isPlaying)
 			{
@@ -138,8 +130,7 @@ public class StateManager : MonoBehaviour {
 			//Do normal stuff
 
 			//Show our score and things
-			//hud.text = ("Health: " + user.getHealth());
-			//healthBar.fillAmount = (user.getHealth () / 100.0f);
+			hud.text = ("Coins: " + score);
 
 			//start the music! if it is not playing
 			if (!bgFight.isPlaying) {
