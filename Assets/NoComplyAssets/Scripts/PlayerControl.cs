@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerControl : BaseCharacter {
 
 	//Our sounds
 	private AudioSource jump;
+	private AudioSource slide;
 	private AudioSource attack;
 	private AudioSource attackHit;
 
@@ -48,7 +50,8 @@ public class PlayerControl : BaseCharacter {
 		base.Start();
 
 		//Get our sounds
-		jump = GameObject.Find ("Jump").GetComponent<AudioSource> ();
+		jump = GameObject.Find ("JumpSound").GetComponent<AudioSource> ();
+		slide = GameObject.Find ("SlideSound").GetComponent<AudioSource> ();
 		/*
 		attack = GameObject.Find ("Attack").GetComponent<AudioSource> ();
 		attackHit = GameObject.Find ("AttackHit").GetComponent<AudioSource> ();
@@ -124,7 +127,7 @@ public class PlayerControl : BaseCharacter {
 			*/
 
 			//Jumping INput, cant jump if attacking
-			if(Input.GetAxis("Jump") != 0 && !attacking && 
+			if((CrossPlatformInputManager.GetAxis("Jump") != 0 || Input.GetAxis("Jump") != 0) && !attacking && 
 				jumpReady &&
 				!sliding &&
 				jumps < maxJumps &&
@@ -142,14 +145,19 @@ public class PlayerControl : BaseCharacter {
 			}
 
 			//Force to let go of axis
-			if(Input.GetAxis("Jump") == 0) jumpReady = true;
+			if((CrossPlatformInputManager.GetAxis("Jump") == 0 || Input.GetAxis("Jump") == 0)) jumpReady = true;
 
 			//Check if we can slide
-			if(Input.GetAxis("Fire1") != 0 && 
+			if((CrossPlatformInputManager.GetAxis("Fire1") != 0 || Input.GetAxis("Fire1") != 0) && 
 				!attacking &&  
 				jumps < maxJumps &&
 				!sliding && 
 				!gameManager.getGameStatus()) {
+
+				if (slide.isPlaying)
+					slide.Stop ();
+				slide.Play ();
+
 				//Slide Coroutine
 				StopCoroutine ("Slide");
 				animator.SetBool ("Sliding", false);

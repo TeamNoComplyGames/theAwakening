@@ -16,6 +16,7 @@ public class StateManager : MonoBehaviour {
 	//Our Hud
 	private UnityEngine.UI.Text hud;
 	private UnityEngine.GameObject gameOverHud;
+	private UnityEngine.GameObject mobileControls;
 
 	//Our credits
 	private Canvas credits;
@@ -55,6 +56,7 @@ public class StateManager : MonoBehaviour {
 		//Get our Hud
 		hud = GameObject.FindWithTag("ScoreHud").GetComponent<UnityEngine.UI.Text> ();
 		gameOverHud = GameObject.FindWithTag("GameOverHud");
+		mobileControls = GameObject.FindWithTag("MobileControls");
 
 		//get our bg music
 		bgFight = GameObject.Find ("BG Song").GetComponent<AudioSource> ();
@@ -71,6 +73,7 @@ public class StateManager : MonoBehaviour {
 
 		//Hide Our gameover text
 		gameOverHud.SetActive(false);
+		if(mobileControls != null) mobileControls.SetActive (true);
 
 		//Load our save game
 		SaveManager.loadSave();
@@ -103,6 +106,7 @@ public class StateManager : MonoBehaviour {
 				//Show the Game Over Text, hide the coins text
 				hud.enabled = false;
 				gameOverHud.SetActive(true);
+				if(mobileControls != null) mobileControls.SetActive (false);
 
 				//Save our collected Coins
 				SaveManager.setCollectedCoins(SaveManager.getCoins() + score);

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class StartMenuScript : MonoBehaviour {
 
@@ -33,7 +34,7 @@ public class StartMenuScript : MonoBehaviour {
 	void Update () {
 
 		//On input start the game
-		if(!started && Input.GetAxis("Submit") != 0) {
+		if(!started && (CrossPlatformInputManager.GetAxis("Submit") != 0 || Input.GetAxis("Submit") != 0)) {
 			StartCoroutine ("StartGame");
 		}
 	
