@@ -15,6 +15,8 @@ public class FlashingText : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		flashSpeed = 20 / flashSpeed;
+		text.enabled = false;
 		//Call our flash function multiple times
 		InvokeRepeating ("flash", 0, flashSpeed);
 	}

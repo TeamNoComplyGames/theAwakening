@@ -281,7 +281,7 @@ public class PlayerControl : BaseCharacter {
 			charBody.AddForce( new Vector2(0, jumpY));
 
 			//Force some camera Lerp
-			actionCamera.addLerp(0, i / -1080.0f);
+			actionCamera.addLerp(0, i / -1200.0f);
 
 
 			//Wait some frames
