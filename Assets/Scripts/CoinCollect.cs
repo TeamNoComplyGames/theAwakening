@@ -35,7 +35,7 @@ public class CoinCollect : MonoBehaviour {
 	{
 
 		//Check if it is spikes
-		if(collision.gameObject.tag == "Player") {
+		if(collision.gameObject.tag == "Player" && !stateManager.getGameStatus()) {
 			//Increase the score
 			stateManager.setScore (stateManager.getScore() + 1);
 

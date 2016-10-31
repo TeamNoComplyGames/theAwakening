@@ -14,11 +14,17 @@ public class ObjectSpawner : MonoBehaviour {
 	private int trueSpawnRate = 0;
 	private int currentSpawn = 0;
 
+	//Boolean if to spawn on init
+	[Tooltip("Spawn on Initialization?")]
+	public bool spawnOnInit = false;
+
 	// Use this for initialization
 	void Start () {
 		//Set our true spawn rate (Slightly longer than input)
 		trueSpawnRate = spawnRate * 20;
 		currentSpawn = trueSpawnRate;
+
+		if(spawnOnInit && objects.Length > 0)StartCoroutine("SpawnEnemy");
 	}
 	
 	// Update is called once per frame

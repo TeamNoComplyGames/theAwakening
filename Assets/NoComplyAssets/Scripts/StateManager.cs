@@ -123,7 +123,7 @@ public class StateManager : MonoBehaviour {
 			Time.timeScale = 0.45f;
 
 			//Show the Game Over Text
-			gameOverText.enabled = true;
+			//gameOverText.enabled = true;
 		}
 		else {
 

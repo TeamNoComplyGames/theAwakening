@@ -79,7 +79,7 @@ public class PlayerControl : BaseCharacter {
 			walled = Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, wallLayer);
 
 			//If walled, make Jumps = 1
-			if(walled) jumps = 1;
+			//if(walled) jumps = 1;
 			//Recalculate our ground State
 			if (grounded) {
 				jumps = 0;
@@ -144,7 +144,12 @@ public class PlayerControl : BaseCharacter {
 
 
 			//Check if we can slide
-			if(Input.GetAxis("Fire2") != 0 && !attacking && grounded && !sliding && !gameManager.getGameStatus()) {
+			if(Input.GetAxis("Fire2") != 0 && 
+				!attacking && 
+				grounded && 
+				jumps < maxJumps &&
+				!sliding && 
+				!gameManager.getGameStatus()) {
 				//Slide Coroutine
 				StopCoroutine ("Slide");
 				animator.SetBool ("Sliding", false);
@@ -319,13 +324,24 @@ public class PlayerControl : BaseCharacter {
 		if (collision.gameObject.tag == "Enemy" ||
 			collision.gameObject.tag == "EnemyDuck") {
 
+			//Ignore Collisions if dead
+			if(gameManager.getGameStatus()) {
+				Physics2D.IgnoreCollision(collision.collider, charCollider);
+				return;
+			}
+
 			//First check if we were ducking, and it is a enemy we need to duck for
-			if(sliding && collision.gameObject.tag == "EnemyDuck") Physics2D.IgnoreCollision(collision.collider, charCollider);
+			if(sliding && collision.gameObject.tag == "EnemyDuck") {
+				Physics2D.IgnoreCollision(collision.collider, charCollider);
+				return;
+			}
 
 			if (attacking) {
 
 				//Attack the enemy
 				attackEnemy (collision);
+
+				return;
 			}
 		}
 	}
@@ -356,14 +372,27 @@ public class PlayerControl : BaseCharacter {
 		if (collision.gameObject.tag == "Enemy" ||
 			collision.gameObject.tag == "EnemyDuck") {
 
+			//Ignore Collisions if dead
+			if(gameManager.getGameStatus()) {
+				Physics2D.IgnoreCollision(collision.collider, charCollider);
+				return;
+			}
+
 			//First check if we were ducking, and it is a enemy we need to duck for
-			if(sliding && collision.gameObject.tag == "EnemyDuck") Physics2D.IgnoreCollision(collision.collider, charCollider);
+			if(sliding && collision.gameObject.tag == "EnemyDuck") {
+				Physics2D.IgnoreCollision(collision.collider, charCollider);
+				return;
+			}
 
 			if (attacking) {
 
 				//Attack the enemy
 				attackEnemy (collision);
+				return;
 			}
+
+			//Else, subtract one from our health
+			setHealth(getHealth() - 1);
 		}
 	}
 
