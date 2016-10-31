@@ -17,12 +17,16 @@ public class CoinCollect : MonoBehaviour {
 	//Get our StateManager
 	StateManager stateManager;
 
+	//If we have been collected
+	private bool collected;
+
 	// Use this for initialization
 	void Start () {
 		stateManager = FindObjectOfType (typeof(StateManager)) as StateManager;
 		coinCollider = GetComponent<Collider2D>();
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		collectSound = GetComponent<AudioSource> ();
+		collected = false;
 	}
 	
 	// Update is called once per frame
@@ -37,7 +41,7 @@ public class CoinCollect : MonoBehaviour {
 		//Check if it is spikes
 		if(collision.gameObject.tag == "Player") {
 
-			if (stateManager.getGameStatus ()) {
+			if (collected || stateManager.getGameStatus ()) {
 				//Ignore the collision
 				Physics2D.IgnoreCollision(collision.collider, coinCollider);
 				return;
@@ -46,7 +50,13 @@ public class CoinCollect : MonoBehaviour {
 			//Increase the score
 			stateManager.setScore (stateManager.getScore() + 1);
 
+			//Set collected to true
+			collected = true;
+
 			StartCoroutine ("Collect");
+
+			//Ignore the collision
+			Physics2D.IgnoreCollision(collision.collider, coinCollider);
 		}
 
 		//Check if it is an enemy

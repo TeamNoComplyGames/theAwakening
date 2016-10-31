@@ -4,9 +4,9 @@ using System.Collections;
 [System.Serializable]
 public class PlayerSave
 {
-	//our level
-	int level;
-	//our score
+	//our total collected coins
+	int coins;
+	//our high score
 	int score;
 	//Our map index
 	int mapIndex;
@@ -16,21 +16,21 @@ public class PlayerSave
 	//our constructor
 	public PlayerSave()
 	{
-		level = 0;
+		coins = 0;
 		score = 0;
 		mapIndex = 0;
 		charIndex = 0;
 	}
 
 	//Set and get methods
-	public void setLevel(int lvl)
+	public void setCoins(int coin)
 	{
-		level = lvl;
+		coins = coin;
 	}
 	
-	public int getLevel()
+	public int getCoins()
 	{
-		return level;
+		return coins;
 	}
 
 	public void setScore(int s)

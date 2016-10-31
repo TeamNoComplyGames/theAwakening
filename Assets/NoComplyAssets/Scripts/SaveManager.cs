@@ -12,9 +12,9 @@ public static class SaveManager
 	//load our file
 	public static void loadSave()
 	{
-		if(File.Exists(Application.persistentDataPath + "/punch.legacy")) {
+		if(File.Exists(Application.persistentDataPath + "/punch.awakening")) {
 			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open(Application.persistentDataPath + "/punch.legacy", FileMode.Open);
+			FileStream file = File.Open(Application.persistentDataPath + "/punch.awakening", FileMode.Open);
 			save = (PlayerSave)bf.Deserialize(file);
 			file.Close();
 		}
@@ -23,23 +23,23 @@ public static class SaveManager
 	//save our file
 	public static void saveSave() {
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create (Application.persistentDataPath + "/punch.legacy");
+		FileStream file = File.Create (Application.persistentDataPath + "/punch.awakening");
 		bf.Serialize(file, save);
 		file.Close();
 	}
 
 	//Set and get methods
-	public static void setHighLevel(int lvl)
+	public static void setCollectedCoins(int coin)
 	{
-		if(lvl > getSaveLevel())
+		if(coin > getCoins())
 		{
-			save.setLevel(lvl);
+			save.setCoins(coin);
 		}
 	}
 	
-	public static int getSaveLevel()
+	public static int getCoins()
 	{
-		return save.getLevel();
+		return save.getCoins();
 	}
 
 	public static void setHighScore(int s)

@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: 7ad5c2537b6c1214ba1ac0d92de9113d
+timeCreated: 1477862371
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Explosion_0
+    21300002: Explosion_1
+    21300004: Explosion_2
+    21300006: Explosion_3
+    21300008: Explosion_4
+    21300010: Explosion_5
+    21300012: Explosion_6
+    21300014: Explosion_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Explosion_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 93
+        width: 38
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 20}
+        - {x: -19, y: 18}
+        - {x: -19, y: -17}
+        - {x: -12, y: -20}
+        - {x: 13, y: -20}
+        - {x: 19, y: -11}
+        - {x: 19, y: 14}
+        - {x: 17, y: 20}
+    - name: Explosion_1
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 89
+        width: 61
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -19.5, y: 27}
+        - {x: -30.5, y: 19}
+        - {x: -30.5, y: -22}
+        - {x: -27.5, y: -27}
+        - {x: 17.5, y: -27}
+        - {x: 30.5, y: -20}
+        - {x: 30.5, y: 10}
+        - {x: 24.5, y: 27}
+    - name: Explosion_2
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 86
+        width: 72
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 33.5}
+        - {x: -36, y: 14.5}
+        - {x: -36, y: -33.5}
+        - {x: 36, y: -33.5}
+        - {x: 36, y: 14.5}
+        - {x: 23, y: 33.5}
+    - name: Explosion_3
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 91
+        width: 61
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -19.5, y: 27}
+        - {x: -30.5, y: 19}
+        - {x: -30.5, y: -22}
+        - {x: -27.5, y: -27}
+        - {x: 17.5, y: -27}
+        - {x: 30.5, y: -20}
+        - {x: 30.5, y: 10}
+        - {x: 24.5, y: 27}
+    - name: Explosion_4
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 18
+        width: 31
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Explosion_5
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 19
+        width: 26
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Explosion_6
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 16
+        width: 52
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Explosion_7
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 18
+        width: 69
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -166,7 +166,7 @@ public class PlayerControl : BaseCharacter {
 			//r.enabled = false;
 			//No longer turning invisible, just looping death animation
 			//play our death animation
-			animator.SetTrigger ("Death");
+			//animator.SetTrigger ("Death");
 
 			//play the death sound
 			//if (!death.isPlaying) {
@@ -385,6 +385,14 @@ public class PlayerControl : BaseCharacter {
 
 			//Else, subtract one from our health
 			setHealth(getHealth() - 1);
+
+			//We is ded
+			if(getHealth() <= 0) {
+
+				//We is ded
+				animator.SetTrigger ("Death");
+				render.material.color = Color.white;
+			}
 		}
 	}
 

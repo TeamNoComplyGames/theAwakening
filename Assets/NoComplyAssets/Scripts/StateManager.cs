@@ -15,20 +15,13 @@ public class StateManager : MonoBehaviour {
 
 	//Our Hud
 	private UnityEngine.UI.Text hud;
-	private UnityEngine.UI.Image healthBar;
-	public UnityEngine.UI.Text gameOverText;
+	private UnityEngine.GameObject gameOverHud;
 
 	//Our credits
 	private Canvas credits;
 
 	//Our score
 	private int score;
-
-	//Our slowmo
-	private int currentSlowmo;
-	private int maxSlowmo;
-	private float slowmoRate;
-
 
 	//Our background music
 	public AudioSource bgFight;
@@ -39,13 +32,19 @@ public class StateManager : MonoBehaviour {
 	//Our select sound
 	public AudioSource select;
 
+	//How much the game difficulty will increase
+	public int difficultyRate = 10;
+	private int difficultyFrames;
+
+	//If we saved our game or not
+	private bool savedGame;
+
 	// Use this for initialization
 	void Start () {
 
 		//Scale our camera accordingly
 		gameOver = false;
-		gameWin = false;
-		creditsShow = false;
+		savedGame = false;
 
 		//Set our time to normal speed
 		Time.timeScale = 1;
@@ -55,14 +54,10 @@ public class StateManager : MonoBehaviour {
 
 		//Get our Hud
 		hud = GameObject.FindWithTag("ScoreHud").GetComponent<UnityEngine.UI.Text> ();
-
-		//Get our Hud
-		//credits = GameObject.FindGameObjectWithTag ("Credits").GetComponent<Canvas>();
-		//credits.enabled = false;
+		gameOverHud = GameObject.FindWithTag("GameOverHud");
 
 		//get our bg music
 		bgFight = GameObject.Find ("BG Song").GetComponent<AudioSource> ();
-		//deathSound = GameObject.Find ("Death").GetComponent<AudioSource> ();
 		deathPlayed = false;
 
 		//Set score to zero
@@ -71,39 +66,20 @@ public class StateManager : MonoBehaviour {
 		//Show our score and things
 		hud.text = ("Coins: " + score);
 
-		//All of our slow mo stats
-		maxSlowmo = 60;
-		currentSlowmo = maxSlowmo;
-		slowmoRate = 0.025f;
+		//Get our difficulty rate
+		difficultyFrames = 0;
 
 		//Hide Our gameover text
-		//gameOverText.enabled = false;
+		gameOverHud.SetActive(false);
+
+		//Load our save game
+		SaveManager.loadSave();
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		//Check if we need to restart the game
-		if(Input.GetAxis("Submit") != 0) {
-
-			StartCoroutine ("resetScene");
-		}
-
-		//Check if we need to quite the Game
-		if(Input.GetAxis("Cancel") != 0) Application.Quit();
-
-		if (gameWin) {
-
-			//Slow down the game Time
-			Time.timeScale = 0.275f;
-
-			//Fade in the credits
-			if (!creditsShow) {
-				creditsShow = true;
-				StartCoroutine ("creditsFade");
-			}
-		}
-		else if(gameOver)
+		if(gameOver)
 		{
 			
 			//Show our game over
@@ -122,8 +98,31 @@ public class StateManager : MonoBehaviour {
 			//Slow down the game Time
 			Time.timeScale = 0.45f;
 
-			//Show the Game Over Text
-			//gameOverText.enabled = true;
+			if (!savedGame) {
+				
+				//Show the Game Over Text, hide the coins text
+				hud.enabled = false;
+				gameOverHud.SetActive(true);
+
+				//Save our collected Coins
+				SaveManager.setCollectedCoins(SaveManager.getCoins() + score);
+
+				//Edit the game over text with our information
+				UnityEngine.UI.Text gameOverText = gameOverHud.GetComponent<UnityEngine.UI.Text>();
+				gameOverText.text = "Game Over!";
+				//Check if it was a high score
+				if(score > SaveManager.getSaveScore()) {
+					gameOverText.text += "\nNew High Score!";
+					SaveManager.setHighScore (score);
+				}
+				gameOverText.text += "\nCollected Coins: " + score;
+				gameOverText.text += "\nTotal Coins: " + SaveManager.getCoins();
+
+				//Save the save
+				SaveManager.saveSave();
+
+				savedGame = true;
+			}
 		}
 		else {
 
@@ -137,32 +136,13 @@ public class StateManager : MonoBehaviour {
 				bgFight.Play ();
 				bgFight.loop = true;
 			}
-				
 
-			//Do some slowmo
-			//Attacks with our player (Check for a level up here as well), only attack if not jumping
-			if (Input.GetKeyDown (KeyCode.P) &&
-				!gameOver && 
-				Time.timeScale >= 1.0f) {
-
-				//Now since we are allowing holding space to punch we gotta count for it
-				if (currentSlowmo >= maxSlowmo) {
-
-					//Time
-					Time.timeScale = 0.25f;
-
-					currentSlowmo = 0;
-				}
-
-			} else if (currentSlowmo < maxSlowmo) {
-
-				currentSlowmo++;
-
-				//Time
-				if (Time.timeScale < 1.0f)
-					Time.timeScale = Time.timeScale + slowmoRate;
-				else
-					Time.timeScale = 1.0f;
+			//Check if we need to increase the game speed
+			if (difficultyFrames >= (difficultyRate * 20)) {
+				Time.timeScale = Time.timeScale + (difficultyRate / 1000.0f);
+				difficultyFrames = 0;
+			} else {
+				difficultyFrames++;
 			}
 		}
 
@@ -190,6 +170,11 @@ public class StateManager : MonoBehaviour {
 		score = newScore;
 	}
 
+	//Function to reset the level
+	public void resetGame() {
+		StartCoroutine ("resetScene");
+	}
+
 	//Function to reset the scene
 	public IEnumerator resetScene() {
 
@@ -202,59 +187,11 @@ public class StateManager : MonoBehaviour {
 		}
 
 		//Load the scene
-		SceneManager.LoadScene ("GameMain");
+		SceneManager.LoadScene ("MainGame");
 	}
 
-	//Function to fade in some credits
-	public IEnumerator creditsFade() {
-
-		//Pause and continue the music
-		bgFight.Pause();
-
-		//wait a tiny bit
-		for(int i = 22; i > 0; i--) {
-			yield return new WaitForFixedUpdate();
-		}
-
-		//Nestedloop for awesome ness
-		for(int j = 17; j > 0; j--) {
-
-			//Wait some frames
-			for(int i = j / 3; i > 0; i--) {
-				yield return new WaitForFixedUpdate();
-			}
-
-			//Disable the credits
-			credits.enabled = false;
-			bgFight.Pause ();
-
-			//Wait some frames
-			for(int i = j / 3; i > 0; i--) {
-				yield return new WaitForFixedUpdate();
-			}
-
-			//Enable the credits
-			credits.enabled = true;
-			bgFight.Play ();
-		}
-
-		//Once More Super Fast Flashing
-		for(int j = 3; j > 0; j--) {
-
-			//Wait some frames
-			yield return new WaitForFixedUpdate();
-
-			//Disable the credits
-			credits.enabled = false;
-			bgFight.Pause ();
-
-			//Wait some frames
-			yield return new WaitForFixedUpdate();
-
-			//Enable the credits
-			credits.enabled = true;
-			bgFight.Play ();
-		}
-
+	//Function to quit the game
+	public void quitGame() {
+		Application.Quit();
 	}
 }
